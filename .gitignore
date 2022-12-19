@@ -1,0 +1,8 @@
+.vs
+*.exe
+*.iobj
+*.ipdb
+*.pdb
+*.user
+*.filters
+FE9-Combat-Display/x64

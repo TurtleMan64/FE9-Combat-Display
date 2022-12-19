@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FE9-Combat-Display", "FE9-Combat-Display\FE9-Combat-Display.vcxproj", "{E5278748-149E-4A76-80DD-6582C3A17C79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Debug|x64.ActiveCfg = Debug|x64
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Debug|x64.Build.0 = Debug|x64
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Debug|x86.ActiveCfg = Debug|Win32
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Debug|x86.Build.0 = Debug|Win32
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Release|x64.ActiveCfg = Release|x64
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Release|x64.Build.0 = Release|x64
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Release|x86.ActiveCfg = Release|Win32
+		{E5278748-149E-4A76-80DD-6582C3A17C79}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D88AC12-4187-418E-8EF7-C76B8C7A51ED}
+	EndGlobalSection
+EndGlobal

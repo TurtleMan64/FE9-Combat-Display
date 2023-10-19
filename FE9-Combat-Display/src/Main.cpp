@@ -15,7 +15,8 @@
 SDL_Window*   sdlWindow   = nullptr;
 SDL_Renderer* sdlRenderer = nullptr;
 
-SDL_Texture* imgBase = nullptr;
+SDL_Texture* imgBase1 = nullptr;
+SDL_Texture* imgBase2 = nullptr;
 SDL_Texture* imgNumbers[10];
 
 const u64 ARAM_FAKESIZE = 0x02000000LL;
@@ -62,7 +63,7 @@ int main(int argc, char* argv[])
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    sdlWindow = SDL_CreateWindow("FE9 Combat Display", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 97*2, 65*2, SDL_WINDOW_SHOWN);
+    sdlWindow = SDL_CreateWindow("FE9 Combat Display", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 97*2, 80*2, SDL_WINDOW_SHOWN);
     sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     // Disable the minimize and maximize buttons.
@@ -77,7 +78,8 @@ int main(int argc, char* argv[])
 
     SDL_SetRenderTarget(sdlRenderer, nullptr);
 
-    imgBase       = IMG_LoadTexture(sdlRenderer, "res/Display2.png");
+    imgBase1      = IMG_LoadTexture(sdlRenderer, "res/Display3.png");
+    imgBase2      = IMG_LoadTexture(sdlRenderer, "res/Display4.png");
     imgNumbers[0] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/0.png");
     imgNumbers[1] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/1.png");
     imgNumbers[2] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/2.png");
@@ -132,6 +134,8 @@ int main(int argc, char* argv[])
 
             bool unknown = false;
 
+            bool playerIsOnLeft = true;
+
             if (phase == 0) //player phase
             {
                 if (battleSide == 112 || battleSide == 160 || battleSide == 48) //blue is on the left side of the screen
@@ -140,6 +144,7 @@ int main(int argc, char* argv[])
                     leftCrit  = attackingUnitCrit;
                     rightHit  = defendingUnitHit;
                     rightCrit = defendingUnitCrit;
+                    playerIsOnLeft = true;
                 }
                 else if (battleSide == 80 || battleSide == 128 || battleSide == 16) //blue is on right side of the screen
                 {
@@ -147,6 +152,7 @@ int main(int argc, char* argv[])
                     leftCrit  = defendingUnitCrit;
                     rightHit  = attackingUnitHit;
                     rightCrit = attackingUnitCrit;
+                    playerIsOnLeft = false;
                 }
                 else
                 {
@@ -162,6 +168,7 @@ int main(int argc, char* argv[])
                     leftCrit  = defendingUnitCrit;
                     rightHit  = attackingUnitHit;
                     rightCrit = attackingUnitCrit;
+                    playerIsOnLeft = true;
                 }
                 else if (battleSide == 160 || battleSide == 48 || battleSide == 112) //blue is on right side of the screen
                 {
@@ -169,6 +176,7 @@ int main(int argc, char* argv[])
                     leftCrit  = attackingUnitCrit;
                     rightHit  = defendingUnitHit;
                     rightCrit = defendingUnitCrit;
+                    playerIsOnLeft = false;
                 }
                 else
                 {
@@ -184,11 +192,18 @@ int main(int argc, char* argv[])
 
             if (!unknown)
             {
-                SDL_RenderCopy(sdlRenderer, imgBase, nullptr, nullptr);
-                renderNumber(leftHit,   19*2, 19*2);
-                renderNumber(leftCrit,  19*2, 47*2);
-                renderNumber(rightHit,  73*2, 19*2);
-                renderNumber(rightCrit, 73*2, 47*2);
+                if (playerIsOnLeft)
+                {
+                    SDL_RenderCopy(sdlRenderer, imgBase1, nullptr, nullptr);
+                }
+                else
+                {
+                    SDL_RenderCopy(sdlRenderer, imgBase2, nullptr, nullptr);
+                }
+                renderNumber(leftHit,   19*2, (19+15)*2);
+                renderNumber(leftCrit,  19*2, (47+15)*2);
+                renderNumber(rightHit,  73*2, (19+15)*2);
+                renderNumber(rightCrit, 73*2, (47+15)*2);
             }
         }
 

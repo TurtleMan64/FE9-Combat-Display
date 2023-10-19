@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 
         SDL_RenderClear(sdlRenderer);
 
-        if ((inBattle == 127 || inBattle == 255) && battleSide != 0 && phase == 1)
+        if ((inBattle == 127 || inBattle == 255) && battleSide != 0)
         {
             u8 leftHit = 0;
             u8 leftCrit = 0;
@@ -134,14 +134,14 @@ int main(int argc, char* argv[])
 
             if (phase == 0) //player phase
             {
-                if (battleSide == 112 || battleSide == 160) //blue is on the left side of the screen
+                if (battleSide == 112 || battleSide == 160 || battleSide == 48) //blue is on the left side of the screen
                 {
                     leftHit   = attackingUnitHit;
                     leftCrit  = attackingUnitCrit;
                     rightHit  = defendingUnitHit;
                     rightCrit = defendingUnitCrit;
                 }
-                else if (battleSide == 80 || battleSide == 128) //blue is on right side of the screen
+                else if (battleSide == 80 || battleSide == 128 || battleSide == 16) //blue is on right side of the screen
                 {
                     leftHit   = defendingUnitHit;
                     leftCrit  = defendingUnitCrit;

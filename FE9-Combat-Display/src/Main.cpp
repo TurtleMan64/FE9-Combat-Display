@@ -13,7 +13,7 @@
 #define u8 unsigned char
 #define u64 unsigned long long
 
-SDL_Window*   sdlWindow   = nullptr;
+SDL_Window* sdlWindow = nullptr;
 SDL_Renderer* sdlRenderer = nullptr;
 
 SDL_Texture* imgBase1 = nullptr;
@@ -21,16 +21,16 @@ SDL_Texture* imgBase2 = nullptr;
 SDL_Texture* imgNumbers[10];
 
 const u64 ARAM_FAKESIZE = 0x02000000LL;
-const u64 ARAM_START    = 0x7e000000LL;
-const u64 ARAM_END      = 0x7f000000LL;
-const u64 MEM1_START    = 0x80000000LL;
-const u64 MEM1_END      = 0x81800000LL;
-const u64 MEM2_START    = 0x90000000LL;
-const u64 MEM2_END      = 0x94000000LL;
+const u64 ARAM_START = 0x7e000000LL;
+const u64 ARAM_END = 0x7f000000LL;
+const u64 MEM1_START = 0x80000000LL;
+const u64 MEM1_END = 0x81800000LL;
+const u64 MEM2_START = 0x90000000LL;
+const u64 MEM2_END = 0x94000000LL;
 
-u8 phase            = 2;    // 0 during player phase, 1 during enemy phase
-u8 inBattle         = 0;    // 127 or 255 during combat
-u8 battleSide       = 0;    // determines which side (left or right) the blue unit is on
+u8 phase = 2;    // 0 during player phase, 1 during enemy phase
+u8 inBattle = 0;    // 127 or 255 during combat
+u8 battleSide = 0;    // determines which side (left or right) the blue unit is on
 u8 attackingUnitAtk = 100;
 u8 attackingUnitDef = 100;
 u8 attackingUnitHit = 100;
@@ -47,7 +47,7 @@ enum Region
     PAL
 };
 
-const int textWidth  = 19;
+const int textWidth = 19;
 const int textHeight = 26;
 // renders the number centered around the x and y
 void renderNumber(int num, int x, int y);
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    sdlWindow = SDL_CreateWindow("FE9 Combat Display", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 97*2, 80*2, SDL_WINDOW_SHOWN);
+    sdlWindow = SDL_CreateWindow("FE9 Combat Display", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 97 * 2, 80 * 2, SDL_WINDOW_SHOWN);
     sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED); //| SDL_RENDERER_PRESENTVSYNC);
 
     // Disable the minimize and maximize buttons.
@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
 
     SDL_SetRenderTarget(sdlRenderer, nullptr);
 
-    imgBase1      = IMG_LoadTexture(sdlRenderer, "res/Display5.png");
-    imgBase2      = IMG_LoadTexture(sdlRenderer, "res/Display6.png");
+    imgBase1 = IMG_LoadTexture(sdlRenderer, "res/Display5.png");
+    imgBase2 = IMG_LoadTexture(sdlRenderer, "res/Display6.png");
     imgNumbers[0] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/0.png");
     imgNumbers[1] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/1.png");
     imgNumbers[2] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/2.png");
@@ -113,14 +113,14 @@ int main(int argc, char* argv[])
         {
             switch (e.type)
             {
-                case SDL_QUIT:
-                {
-                    running = false;
-                    break;
-                }
+            case SDL_QUIT:
+            {
+                running = false;
+                break;
+            }
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
 
@@ -154,9 +154,9 @@ int main(int argc, char* argv[])
             {
                 if (battleSide == 112 || battleSide == 160 || battleSide == 48) //blue is on the left side of the screen
                 {
-                    leftAtk  = attackingUnitAtk - defendingUnitDef;
-                    leftHit  = attackingUnitHit;
-                    leftCrt  = attackingUnitCrt;
+                    leftAtk = attackingUnitAtk - defendingUnitDef;
+                    leftHit = attackingUnitHit;
+                    leftCrt = attackingUnitCrt;
                     rightAtk = defendingUnitAtk - attackingUnitDef;
                     rightHit = defendingUnitHit;
                     rightCrt = defendingUnitCrt;
@@ -172,11 +172,11 @@ int main(int argc, char* argv[])
                         rightAtk = 0;
                     }
                 }
-                else if (battleSide == 80 || battleSide == 128 || battleSide == 16) //blue is on right side of the screen
+                else //if (battleSide == 80 || battleSide == 128 || battleSide == 16) //blue is on right side of the screen
                 {
-                    leftAtk  = defendingUnitAtk - attackingUnitDef;
-                    leftHit  = defendingUnitHit;
-                    leftCrt  = defendingUnitCrt;
+                    leftAtk = defendingUnitAtk - attackingUnitDef;
+                    leftHit = defendingUnitHit;
+                    leftCrt = defendingUnitCrt;
                     rightAtk = attackingUnitAtk - defendingUnitDef;
                     rightHit = attackingUnitHit;
                     rightCrt = attackingUnitCrt;
@@ -192,19 +192,19 @@ int main(int argc, char* argv[])
                         rightAtk = 0;
                     }
                 }
-                else
-                {
-                    printf("battleSide was unexpected value on player phase%d\n", battleSide);
-                    unknown = true;
-                }
+                //else
+                //{
+                //    printf("battleSide was unexpected value on player phase%d\n", battleSide);
+                //    unknown = true;
+                //}
             }
             else if (phase == 1) //enemy phase
             {
                 if (battleSide == 128 || battleSide == 16 || battleSide == 80) //blue is on the left side of the screen
                 {
-                    leftAtk  = defendingUnitAtk - attackingUnitDef;
-                    leftHit  = defendingUnitHit;
-                    leftCrt  = defendingUnitCrt;
+                    leftAtk = defendingUnitAtk - attackingUnitDef;
+                    leftHit = defendingUnitHit;
+                    leftCrt = defendingUnitCrt;
                     rightAtk = attackingUnitAtk - defendingUnitDef;
                     rightHit = attackingUnitHit;
                     rightCrt = attackingUnitCrt;
@@ -220,11 +220,11 @@ int main(int argc, char* argv[])
                         rightAtk = 0;
                     }
                 }
-                else if (battleSide == 160 || battleSide == 48 || battleSide == 112) //blue is on right side of the screen
+                else //if (battleSide == 160 || battleSide == 48 || battleSide == 112) //blue is on right side of the screen
                 {
-                    leftAtk  = attackingUnitAtk - defendingUnitDef;
-                    leftHit  = attackingUnitHit;
-                    leftCrt  = attackingUnitCrt;
+                    leftAtk = attackingUnitAtk - defendingUnitDef;
+                    leftHit = attackingUnitHit;
+                    leftCrt = attackingUnitCrt;
                     rightAtk = defendingUnitAtk - attackingUnitDef;
                     rightHit = defendingUnitHit;
                     rightCrt = defendingUnitCrt;
@@ -240,11 +240,11 @@ int main(int argc, char* argv[])
                         rightAtk = 0;
                     }
                 }
-                else
-                {
-                    printf("battleSide was unexpected value on enemy phase%d\n", battleSide);
-                    unknown = true;
-                }
+                //else
+                //{
+                //    printf("battleSide was unexpected value on enemy phase%d\n", battleSide);
+                //    unknown = true;
+                //}
             }
             else
             {
@@ -262,20 +262,20 @@ int main(int argc, char* argv[])
                 {
                     SDL_RenderCopy(sdlRenderer, imgBase2, nullptr, nullptr);
                 }
-                renderNumber(leftHit,  19*2, (14+15)*2);
-                renderNumber(leftAtk,  19*2, (34+15)*2);
-                renderNumber(leftCrt,  19*2, (51+15)*2);
+                renderNumber(leftHit, 19 * 2, (14 + 15) * 2);
+                renderNumber(leftAtk, 19 * 2, (34 + 15) * 2);
+                renderNumber(leftCrt, 19 * 2, (51 + 15) * 2);
 
-                renderNumber(rightHit, 73*2, (15+15)*2);
-                renderNumber(rightAtk, 73*2, (34+15)*2);
-                renderNumber(rightCrt, 73*2, (51+15)*2);
+                renderNumber(rightHit, 73 * 2, (15 + 15) * 2);
+                renderNumber(rightAtk, 73 * 2, (34 + 15) * 2);
+                renderNumber(rightCrt, 73 * 2, (51 + 15) * 2);
             }
         }
 
         SDL_RenderPresent(sdlRenderer);
 
         // we really dont need to update the window very often. its almost always the same image as last time.
-        SDL_Delay(50);
+        SDL_Delay(30);
     }
 
     return 0;
@@ -285,7 +285,7 @@ int main(int argc, char* argv[])
 // Sets the SDL window icon from data within the exe instead of loading from a file.
 void setIcon()
 {
-    #include "Icon.cpp"
+#include "Icon.cpp"
 
     Uint32 rmask, gmask, bmask, amask;
     rmask = 0x000000ff;
@@ -297,8 +297,8 @@ void setIcon()
         (void*)imgIcon.pixel_data,
         imgIcon.width,
         imgIcon.height,
-        imgIcon.bytes_per_pixel*8,
-        imgIcon.bytes_per_pixel*imgIcon.width,
+        imgIcon.bytes_per_pixel * 8,
+        imgIcon.bytes_per_pixel * imgIcon.width,
         rmask,
         gmask,
         bmask,
@@ -316,34 +316,34 @@ void renderNumber(int num, int x, int y)
 
     if (d < 10)
     {
-        SDL_Rect rec1 = { (x - textWidth/2), (y - textHeight/2), textWidth, textHeight};
+        SDL_Rect rec1 = { (x - textWidth / 2), (y - textHeight / 2), textWidth, textHeight };
 
         SDL_RenderCopy(sdlRenderer, imgNumbers[d], nullptr, &rec1);
     }
     else if (d < 100)
     {
-        SDL_Rect rec1 = { (x - textWidth), (y - textHeight/2), textWidth, textHeight};
-        SDL_Rect rec2 = { (x +         0), (y - textHeight/2), textWidth, textHeight};
+        SDL_Rect rec1 = { (x - textWidth), (y - textHeight / 2), textWidth, textHeight };
+        SDL_Rect rec2 = { (x + 0), (y - textHeight / 2), textWidth, textHeight };
 
-        SDL_RenderCopy(sdlRenderer, imgNumbers[d/10], nullptr, &rec1);
-        SDL_RenderCopy(sdlRenderer, imgNumbers[d%10], nullptr, &rec2);
+        SDL_RenderCopy(sdlRenderer, imgNumbers[d / 10], nullptr, &rec1);
+        SDL_RenderCopy(sdlRenderer, imgNumbers[d % 10], nullptr, &rec2);
     }
     else
     {
-        SDL_Rect rec1 = { (x - (3*textWidth)/2), (y - textHeight/2), textWidth, textHeight};
-        SDL_Rect rec2 = { (x -     textWidth/2), (y - textHeight/2), textWidth, textHeight};
-        SDL_Rect rec3 = { (x +     textWidth/2), (y - textHeight/2), textWidth, textHeight};
+        SDL_Rect rec1 = { (x - (3 * textWidth) / 2), (y - textHeight / 2), textWidth, textHeight };
+        SDL_Rect rec2 = { (x - textWidth / 2), (y - textHeight / 2), textWidth, textHeight };
+        SDL_Rect rec3 = { (x + textWidth / 2), (y - textHeight / 2), textWidth, textHeight };
 
-        SDL_RenderCopy(sdlRenderer, imgNumbers[d/100],     nullptr, &rec1);
-        SDL_RenderCopy(sdlRenderer, imgNumbers[(d/10)%10], nullptr, &rec2);
-        SDL_RenderCopy(sdlRenderer, imgNumbers[d%10],      nullptr, &rec3);
+        SDL_RenderCopy(sdlRenderer, imgNumbers[d / 100], nullptr, &rec1);
+        SDL_RenderCopy(sdlRenderer, imgNumbers[(d / 10) % 10], nullptr, &rec2);
+        SDL_RenderCopy(sdlRenderer, imgNumbers[d % 10], nullptr, &rec3);
     }
 }
 
 // Gets the process id from the given process name.
 DWORD getPIDByName(const char* processName)
 {
-    PROCESSENTRY32 pe32 = {0};
+    PROCESSENTRY32 pe32 = { 0 };
     HANDLE hSnapshot = NULL;
 
     pe32.dwSize = sizeof(PROCESSENTRY32);
@@ -360,8 +360,7 @@ DWORD getPIDByName(const char* processName)
                 foundProcess = true;
                 break;
             }
-        }
-        while (Process32Next(hSnapshot, &pe32));
+        } while (Process32Next(hSnapshot, &pe32));
     }
 
     if (foundProcess && hSnapshot != INVALID_HANDLE_VALUE)
@@ -375,24 +374,24 @@ DWORD getPIDByName(const char* processName)
 
 void attachToDolphin()
 {
-    dolphinPID           = NULL;
-    dolphinHandle        = NULL;
+    dolphinPID = NULL;
+    dolphinHandle = NULL;
     m_emuRAMAddressStart = 0;
     m_emuARAMAdressStart = 0;
-    m_MEM2AddressStart   = 0;
-    m_MEM2Present        = false;
-    m_ARAMAccessible     = false;
-    phase                = 2;
-    attackingUnitAtk     = 0;
-    attackingUnitDef     = 0;
-    attackingUnitHit     = 0;
-    attackingUnitCrt     = 0;
-    defendingUnitAtk     = 0;
-    defendingUnitDef     = 0;
-    defendingUnitHit     = 0;
-    defendingUnitCrt     = 0;
-    inBattle             = 0;
-    battleSide           = 0;
+    m_MEM2AddressStart = 0;
+    m_MEM2Present = false;
+    m_ARAMAccessible = false;
+    phase = 2;
+    attackingUnitAtk = 0;
+    attackingUnitDef = 0;
+    attackingUnitHit = 0;
+    attackingUnitCrt = 0;
+    defendingUnitAtk = 0;
+    defendingUnitDef = 0;
+    defendingUnitHit = 0;
+    defendingUnitCrt = 0;
+    inBattle = 0;
+    battleSide = 0;
 
     // Only attempt to connect to dolphin every 2 seconds to avoid unnessesary cpu usage.
     tryAgain--;
@@ -419,24 +418,24 @@ void attachToDolphin()
             // Dolphin is open but isn't emulating anything yet. Close the handle and try again later.
 
             CloseHandle(dolphinHandle);
-            dolphinPID           = NULL;
-            dolphinHandle        = NULL;
+            dolphinPID = NULL;
+            dolphinHandle = NULL;
             m_emuRAMAddressStart = 0;
             m_emuARAMAdressStart = 0;
-            m_MEM2AddressStart   = 0;
-            m_MEM2Present        = false;
-            m_ARAMAccessible     = false;
-            phase                = 2;
-            attackingUnitAtk     = 0;
-            attackingUnitDef     = 0;
-            attackingUnitHit     = 0;
-            attackingUnitCrt     = 0;
-            defendingUnitAtk     = 0;
-            defendingUnitDef     = 0;
-            defendingUnitHit     = 0;
-            defendingUnitCrt     = 0;
-            inBattle             = 0;
-            battleSide           = 0;
+            m_MEM2AddressStart = 0;
+            m_MEM2Present = false;
+            m_ARAMAccessible = false;
+            phase = 2;
+            attackingUnitAtk = 0;
+            attackingUnitDef = 0;
+            attackingUnitHit = 0;
+            attackingUnitCrt = 0;
+            defendingUnitAtk = 0;
+            defendingUnitDef = 0;
+            defendingUnitHit = 0;
+            defendingUnitCrt = 0;
+            inBattle = 0;
+            battleSide = 0;
         }
     }
 }
@@ -447,7 +446,7 @@ bool obtainEmuRAMInformations()
     MEMORY_BASIC_INFORMATION info;
     bool MEM1Found = false;
     for (unsigned char* p = nullptr;
-         VirtualQueryEx(dolphinHandle, p, &info, sizeof(info)) == sizeof(info); p += info.RegionSize)
+        VirtualQueryEx(dolphinHandle, p, &info, sizeof(info)) == sizeof(info); p += info.RegionSize)
     {
         // Check region size so that we know it's MEM2
         if (!m_MEM2Present && info.RegionSize == 0x4000000)
@@ -458,7 +457,6 @@ bool obtainEmuRAMInformations()
             {
                 // In some cases MEM2 could actually be before MEM1. Once we find MEM1, ignore regions of
                 // this size that are too far away. There apparently are other non-MEM2 regions of size
-                // 0x4000000.
                 break;
             }
             // View the comment for MEM1.
@@ -504,13 +502,13 @@ bool obtainEmuRAMInformations()
             }
         }
     }
-    
+
     if (m_MEM2Present)
     {
         m_emuARAMAdressStart = 0;
         m_ARAMAccessible = false;
     }
-    
+
     if (m_emuRAMAddressStart == 0)
     {
         // Here, Dolphin is running, but the emulation hasn't started
@@ -542,8 +540,8 @@ u64 getAddressOfDolphinMemoryToRead(u64 uiAddr)
     // MEM2 address
     else if (addr >= MEM2_START && addr < MEM2_END)
     {
-      addr -= MEM2_START;
-      addr += (MEM2_START - MEM1_START);
+        addr -= MEM2_START;
+        addr += (MEM2_START - MEM1_START);
     }
 
     u64 RAMAddress = 0;
@@ -600,14 +598,14 @@ void updateDisplay()
     }
     else
     {
-        printf("Unknown region: %s\n", gameId);
+        printf("Unknown (not PoR?) game ID: %s\n", gameId);
         CloseHandle(dolphinHandle);
         dolphinPID = NULL;
         dolphinHandle = NULL;
         return;
     }
 
-    u64 ADDR_PHASE              = 0;
+    u64 ADDR_PHASE = 0;
     u64 ADDR_ATTACKING_UNIT_ATK = 0;
     u64 ADDR_ATTACKING_UNIT_DEF = 0;
     u64 ADDR_ATTACKING_UNIT_HIT = 0;
@@ -616,56 +614,56 @@ void updateDisplay()
     u64 ADDR_DEFENDING_UNIT_DEF = 0;
     u64 ADDR_DEFENDING_UNIT_HIT = 0;
     u64 ADDR_DEFENDING_UNIT_CRT = 0;
-    u64 ADDR_IN_BATTLE          = 0;
-    u64 ADDR_BATTLE_SIDE        = 0;
+    u64 ADDR_IN_BATTLE = 0;
+    u64 ADDR_BATTLE_SIDE = 0;
 
     switch (gameRegion)
     {
-        case JPN:
-            ADDR_PHASE              = 0x8032E799LL;
-            ADDR_ATTACKING_UNIT_ATK = 0x8032F195LL;
-            ADDR_ATTACKING_UNIT_DEF = 0x8032F197LL;
-            ADDR_ATTACKING_UNIT_HIT = 0x8032F19FLL;
-            ADDR_ATTACKING_UNIT_CRT = 0x8032F1A5LL;
-            ADDR_DEFENDING_UNIT_ATK = 0x8032F475LL;
-            ADDR_DEFENDING_UNIT_DEF = 0x8032F477LL;
-            ADDR_DEFENDING_UNIT_HIT = 0x8032F47FLL;
-            ADDR_DEFENDING_UNIT_CRT = 0x8032F485LL;
-            ADDR_IN_BATTLE          = 0x80603216LL;
-            ADDR_BATTLE_SIDE        = 0x8032FBA8LL;
-            break;
+    case JPN:
+        ADDR_PHASE = 0x8032E799LL;
+        ADDR_ATTACKING_UNIT_ATK = 0x8032F195LL;
+        ADDR_ATTACKING_UNIT_DEF = 0x8032F197LL;
+        ADDR_ATTACKING_UNIT_HIT = 0x8032F19FLL;
+        ADDR_ATTACKING_UNIT_CRT = 0x8032F1A5LL;
+        ADDR_DEFENDING_UNIT_ATK = 0x8032F475LL;
+        ADDR_DEFENDING_UNIT_DEF = 0x8032F477LL;
+        ADDR_DEFENDING_UNIT_HIT = 0x8032F47FLL;
+        ADDR_DEFENDING_UNIT_CRT = 0x8032F485LL;
+        ADDR_IN_BATTLE = 0x80603216LL;
+        ADDR_BATTLE_SIDE = 0x8032FBA8LL;
+        break;
 
-        case USA:
-            ADDR_PHASE              = 0x80330719LL;
-            ADDR_ATTACKING_UNIT_ATK = 0x80331145LL;
-            ADDR_ATTACKING_UNIT_DEF = 0x80331147LL;
-            ADDR_ATTACKING_UNIT_HIT = 0x8033114FLL;
-            ADDR_ATTACKING_UNIT_CRT = 0x80331155LL;
-            ADDR_DEFENDING_UNIT_ATK = 0x80331425LL;
-            ADDR_DEFENDING_UNIT_DEF = 0x80331427LL;
-            ADDR_DEFENDING_UNIT_HIT = 0x8033142FLL;
-            ADDR_DEFENDING_UNIT_CRT = 0x80331435LL;
-            ADDR_IN_BATTLE          = 0x80603456LL;
-            ADDR_BATTLE_SIDE        = 0x80331B58LL;
-            break;
+    case USA:
+        ADDR_PHASE = 0x80330719LL;
+        ADDR_ATTACKING_UNIT_ATK = 0x80331145LL;
+        ADDR_ATTACKING_UNIT_DEF = 0x80331147LL;
+        ADDR_ATTACKING_UNIT_HIT = 0x8033114FLL;
+        ADDR_ATTACKING_UNIT_CRT = 0x80331155LL;
+        ADDR_DEFENDING_UNIT_ATK = 0x80331425LL;
+        ADDR_DEFENDING_UNIT_DEF = 0x80331427LL;
+        ADDR_DEFENDING_UNIT_HIT = 0x8033142FLL;
+        ADDR_DEFENDING_UNIT_CRT = 0x80331435LL;
+        ADDR_IN_BATTLE = 0x80603456LL;
+        ADDR_BATTLE_SIDE = 0x80331B58LL;
+        break;
 
-        case PAL:
-            ADDR_PHASE              = 0x8033A719LL;
-            ADDR_ATTACKING_UNIT_ATK = 0x8033B145LL;
-            ADDR_ATTACKING_UNIT_DEF = 0x8033B147LL;
-            ADDR_ATTACKING_UNIT_HIT = 0x8033B14FLL;
-            ADDR_ATTACKING_UNIT_CRT = 0x8033B155LL;
-            ADDR_DEFENDING_UNIT_ATK = 0x8033B425LL;
-            ADDR_DEFENDING_UNIT_DEF = 0x8033B427LL;
-            ADDR_DEFENDING_UNIT_HIT = 0x8033B42FLL;
-            ADDR_DEFENDING_UNIT_CRT = 0x8033B435LL;
-            ADDR_IN_BATTLE          = 0x80641FF6LL;
-            ADDR_BATTLE_SIDE        = 0x8033BB58LL;
-            break;
+    case PAL:
+        ADDR_PHASE = 0x8033A719LL;
+        ADDR_ATTACKING_UNIT_ATK = 0x8033B145LL;
+        ADDR_ATTACKING_UNIT_DEF = 0x8033B147LL;
+        ADDR_ATTACKING_UNIT_HIT = 0x8033B14FLL;
+        ADDR_ATTACKING_UNIT_CRT = 0x8033B155LL;
+        ADDR_DEFENDING_UNIT_ATK = 0x8033B425LL;
+        ADDR_DEFENDING_UNIT_DEF = 0x8033B427LL;
+        ADDR_DEFENDING_UNIT_HIT = 0x8033B42FLL;
+        ADDR_DEFENDING_UNIT_CRT = 0x8033B435LL;
+        ADDR_IN_BATTLE = 0x80641FF6LL;
+        ADDR_BATTLE_SIDE = 0x8033BB58LL;
+        break;
     }
 
     bytesRead = 0;
-    if ((!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_PHASE             ), (LPVOID)(&phase           ), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
+    if ((!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_PHASE), (LPVOID)(&phase), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_ATTACKING_UNIT_ATK), (LPVOID)(&attackingUnitAtk), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_ATTACKING_UNIT_DEF), (LPVOID)(&attackingUnitDef), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_ATTACKING_UNIT_HIT), (LPVOID)(&attackingUnitHit), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
@@ -674,29 +672,29 @@ void updateDisplay()
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_DEFENDING_UNIT_DEF), (LPVOID)(&defendingUnitDef), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_DEFENDING_UNIT_HIT), (LPVOID)(&defendingUnitHit), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
         (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_DEFENDING_UNIT_CRT), (LPVOID)(&defendingUnitCrt), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
-        (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_IN_BATTLE         ), (LPVOID)(&inBattle        ), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
-        (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_BATTLE_SIDE       ), (LPVOID)(&battleSide      ), (SIZE_T)1, &bytesRead) || bytesRead != 1))
+        (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_IN_BATTLE), (LPVOID)(&inBattle), (SIZE_T)1, &bytesRead) || bytesRead != 1) ||
+        (!ReadProcessMemory(dolphinHandle, (LPCVOID)getAddressOfDolphinMemoryToRead(ADDR_BATTLE_SIDE), (LPVOID)(&battleSide), (SIZE_T)1, &bytesRead) || bytesRead != 1))
     {
         printf("Error when reading from dolphin, disconnecting...\n");
         CloseHandle(dolphinHandle);
-        dolphinPID           = NULL;
-        dolphinHandle        = NULL;
+        dolphinPID = NULL;
+        dolphinHandle = NULL;
         m_emuRAMAddressStart = 0;
         m_emuARAMAdressStart = 0;
-        m_MEM2AddressStart   = 0;
-        m_MEM2Present        = false;
-        m_ARAMAccessible     = false;
-        phase                = 2;
-        attackingUnitAtk     = 0;
-        attackingUnitDef     = 0;
-        attackingUnitHit     = 0;
-        attackingUnitCrt     = 0;
-        defendingUnitAtk     = 0;
-        defendingUnitDef     = 0;
-        defendingUnitHit     = 0;
-        defendingUnitCrt     = 0;
-        inBattle             = 0;
-        battleSide           = 0;
+        m_MEM2AddressStart = 0;
+        m_MEM2Present = false;
+        m_ARAMAccessible = false;
+        phase = 2;
+        attackingUnitAtk = 0;
+        attackingUnitDef = 0;
+        attackingUnitHit = 0;
+        attackingUnitCrt = 0;
+        defendingUnitAtk = 0;
+        defendingUnitDef = 0;
+        defendingUnitHit = 0;
+        defendingUnitCrt = 0;
+        inBattle = 0;
+        battleSide = 0;
         return;
     }
 }

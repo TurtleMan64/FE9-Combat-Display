@@ -16,4 +16,4 @@ Now just run the .exe and the combat display will appear. It will automatically 
 
 When there is no combat happening, the display will be a solid pink color. This is so it can easily be color-keyed in streaming software.
 
-![Battle1](https://cdn.discordapp.com/attachments/375840846228094979/1167173939714326679/tmp.png)
+![Battle1](FE9-Combat-Display/res/Preview.png)

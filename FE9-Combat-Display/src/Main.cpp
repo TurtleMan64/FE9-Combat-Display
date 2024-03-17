@@ -62,6 +62,8 @@ u64 m_MEM2AddressStart = 0;
 bool m_MEM2Present = false;
 bool m_ARAMAccessible = false;
 
+std::string pathToEXE = "";
+
 void attachToDolphin();
 void updateDisplay();
 bool obtainEmuRAMInformations();
@@ -69,8 +71,31 @@ void setIcon();
 
 int main(int argc, char* argv[])
 {
-    argc;
-    argv;
+    // Grab the path to the .exe to load images from the local res folder
+    if (argc > 0)
+    {
+        std::string path = argv[0];
+
+        if (path.size() > 5)
+        {
+            std::string end = path.substr(path.size() - 4, 4);
+
+            if (end[0] == '.' &&
+                end[1] == 'e' &&
+                end[2] == 'x' &&
+                end[3] == 'e')
+            {
+                size_t idx = path.find_last_of('\\', path.size());
+
+                if (idx != std::string::npos)
+                {
+                    pathToEXE = path.substr(0, idx + 1);
+                }
+            }
+        }
+    }
+
+    printf("Path to .exe = '%s'\n", pathToEXE.c_str());
 
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
@@ -90,18 +115,18 @@ int main(int argc, char* argv[])
 
     SDL_SetRenderTarget(sdlRenderer, nullptr);
 
-    imgBase1 = IMG_LoadTexture(sdlRenderer, "res/Display5.png");
-    imgBase2 = IMG_LoadTexture(sdlRenderer, "res/Display6.png");
-    imgNumbers[0] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/0.png");
-    imgNumbers[1] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/1.png");
-    imgNumbers[2] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/2.png");
-    imgNumbers[3] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/3.png");
-    imgNumbers[4] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/4.png");
-    imgNumbers[5] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/5.png");
-    imgNumbers[6] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/6.png");
-    imgNumbers[7] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/7.png");
-    imgNumbers[8] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/8.png");
-    imgNumbers[9] = IMG_LoadTexture(sdlRenderer, "res/NumbersSmall/9.png");
+    imgBase1      = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/Display5.png"      ).c_str());
+    imgBase2      = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/Display6.png"      ).c_str());
+    imgNumbers[0] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/0.png").c_str());
+    imgNumbers[1] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/1.png").c_str());
+    imgNumbers[2] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/2.png").c_str());
+    imgNumbers[3] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/3.png").c_str());
+    imgNumbers[4] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/4.png").c_str());
+    imgNumbers[5] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/5.png").c_str());
+    imgNumbers[6] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/6.png").c_str());
+    imgNumbers[7] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/7.png").c_str());
+    imgNumbers[8] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/8.png").c_str());
+    imgNumbers[9] = IMG_LoadTexture(sdlRenderer, (pathToEXE + "res/NumbersSmall/9.png").c_str());
 
     SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 255, 255);
 
